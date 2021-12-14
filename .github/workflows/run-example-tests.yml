@@ -1,0 +1,24 @@
+name: Run example tests
+on:
+  workflow_dispatch:
+
+jobs:
+    test:
+      name: Run example tests and upload results
+      env:
+       PROJECT_DIR: src/Railflow.xUnit.TestRail.Reporter.Example/Example
+      
+      runs-on: windows-latest
+      
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Restore packages, build and run tests
+        run: dotnet test ${{env.PROJECT_DIR}}/Example.csproj --logger "xunit;LogFilePath=TestResults/TestResults.xml"
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+         name: Test results
+         path: ${{env.PROJECT_DIR}}/TestResults/TestResults.xml
