@@ -20,23 +20,23 @@ Writing tests
 
 
 
-## Using RailflowAttribute
+## Using RailflowTestClassAttribute / RailflowTestMethodAttribute
 
-Apply this custom attribute to test methods/classes to mark them with TestRail metadata. See [railflow-xunit](https://github.com/railflow/railflow-xunit)  for more info.
+Apply these custom attributes to test methods/classes to mark them with TestRail metadata. See [railflow-xunit](https://github.com/railflow/railflow-xunit)  for more info.
 
 Here is an example test:
 
 ```c#
-[Railflow(Title = "class-title")]
+[RailflowTestClass(Title = "class-title")]
 public class RailflowAttributeExamples
 {
-	[Railflow(Title = "func-title-1", TestRailIds = new[] { 1, 2, 3 })]
+	[RailflowTestMethod(Title = "func-title-1", TestRailIds = new[] { 1, 2, 3 })]
 	[Fact]
 	public void Test1()
 	{
 	}
 
-	[Railflow(Title = "func-title-2", ResultFields = new[] { "func-result-field-1", "func-result-field-2" })]
+	[RailflowTestMethod(Title = "func-title-2", ResultFields = new[] { "func-result-field-1", "func-result-field-2" })]
 	[Fact]
 	public void Test2()
 	{
@@ -78,22 +78,22 @@ Here is the output of tests from example above (<u>non-relevant pieces are skipp
 
 ```xml
 <collection name="Test collection for Example.RailflowAttributeExamples">
+  <test name="Example.RailflowAttributeExamples.Test3">
+	<traits>
+	  <trait name="railflow-markers-class" value="{'Title':'class-title'}" />
+	</traits>
+  </test>
   <test name="Example.RailflowAttributeExamples.Test1">
-    <traits>
-      <trait name="railflow-markers" value="{'Title':'func-title-1','TestRailIds':[1,2,3]}"/>
-      <trait name="railflow-markers" value="{'Title':'class-title'}"/>
-    </traits>
+	<traits>
+	  <trait name="railflow-markers-method" value="{'Title':'func-title-1','TestRailIds':[1,2,3]}" />
+	  <trait name="railflow-markers-class" value="{'Title':'class-title'}" />
+	</traits>
   </test>
   <test name="Example.RailflowAttributeExamples.Test2">
-    <traits>
-      <trait name="railflow-markers" value="{'Title':'func-title-2','ResultFields':['func-result-field-1','func-result-field-2']}"/>
-      <trait name="railflow-markers" value="{'Title':'class-title'}"/>
-    </traits>
-  </test>
-  <test name="Example.RailflowAttributeExamples.Test3">
-    <traits>
-      <trait name="railflow-markers" value="{'Title':'class-title'}"/>
-    </traits>
+	<traits>
+	  <trait name="railflow-markers-method" value="{'Title':'func-title-2','ResultFields':['func-result-field-1','func-result-field-2']}" />
+	  <trait name="railflow-markers-class" value="{'Title':'class-title'}" />
+	</traits>
   </test>
 </collection>
 ```
